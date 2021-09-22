@@ -39,26 +39,18 @@ def default():
 #     vrep.close_all_connections()
 
 
-def setfly(nbfly):
-    arr = []
-    i = 0
-    while i < nbfly:
-        x = []
-        y = []
-        
-        z = r.randrange(0, 200, 1) / 100
-        y.append(r.randrange(-20, -6, 1) / 10)
-        y.append(r.randrange(6, 20, 1) / 10)
-        x.append(r.randrange(-20, -6, 1) / 10)
-        x.append(r.randrange(6, 20, 1) / 10)
-        r1 = r.randrange(0,2,1)
-        r2 = r.randrange(0,2,1)
-        print(r1)
-        print(r2)
-            
-        arr.append([x[r1], y[r2], z])
-        i += 1
-    return arr
+def setfly(x,y,z,r,nbfly):
+    points = []
+    for i in range(0, nbfly):
+        factor = np.random.uniform(0.3,1)
+        ir = r * factor
+        itheta = np.arccos(np.random.uniform(-1,1))
+        iphi = np.random.uniform(0,2*np.pi)
+        ix = x + ir * np.sin(itheta) * np.cos(iphi)
+        iy = y + ir * np.sin(itheta) * np.sin(iphi)
+        iz = abs(z + ir * np.cos(itheta))
+        points.append((ix,iy,iz))
+    return points
 
 
 def translategraph(all_pos):
@@ -150,7 +142,7 @@ def moove(pos):
         
 
 def main():
-    fly = setfly(10)
+    fly = setfly(0,0,0,0.2,10)
     fly = translategraph(fly)
     init_pos = getactualpos()
     init_pos.append(fly)
