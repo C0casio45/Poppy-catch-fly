@@ -1,6 +1,11 @@
 # Poppy-catch-fly
 Séminaire d'intégration CESI
 
+## En place
+- Zone de génération des mouches semi circulaire
+- Connexion avec le robot
+- Création de graph 3D et 2D
+
 ## Pistes d'amélioration
 - Exclusion de la création des mouches les positions des mouches en dehors des positions de la base en z (et seulement en z car actuellemnt, il enleve les position uniquement en x et y
 - Rectification des bug sur la simulation (robot qui tourne a travers lui même)
