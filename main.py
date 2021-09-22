@@ -54,6 +54,7 @@ def setfly(x,y,z,r,nbfly):
 
 
 def translategraph(all_pos):
+    # Passage de arr = [[x1,y1,z1],[x2,y2,z2]] a arr [[x1,x2],[y1,y2],[z1,z2]]
     arr = [[],[],[]]
     y = 0
     while y < len(all_pos):
@@ -65,6 +66,7 @@ def translategraph(all_pos):
 
 
 def getactualpos():
+    # Récupération de la position du robot
     pos = poppy.chain.end_effector
     actualpos = [[pos[0],pos[1],pos[2]]]
     return actualpos
@@ -87,18 +89,21 @@ def sortbynearest(arr,sort_final):
     if 0 < l:
         i = 0
         while i < l:
+            # Calcul de la norme des vecteurs
             sort.append([sqrt(((arr[0][0] - arr[1][0][i]) ** 2) + ((arr[0][1] - arr[1][1][i]) ** 2)+((arr[0][2] - arr[1][2][i]) ** 2)), i])
             i += 1
            
         sort.sort()
         pos_min = sort[0][1]
+        # enregistrement des coordonées les plus proches sous la forme [x,y,x]
         arr.insert(0,[arr[1][0][pos_min], arr[1][1][pos_min], arr[1][2][pos_min]])
         sort_final.append(arr[0])
         arr.pop(1)
+        # supression des coordonées du vecteur le plus proche
         arr[1][0].pop(pos_min)
         arr[1][1].pop(pos_min)
         arr[1][2].pop(pos_min)
-        
+        # Récursivité
         sortbynearest(arr,sort_final)
         
     else:
@@ -129,8 +134,10 @@ def moove(pos):
         print("")
         print(x)
         print(i)
+        # Récupération des angles des moteurs en rad
         angles = poppy.chain.inverse_kinematics(i)
         print(angles)
+        # Traduction de l'angle de m1 de radian a degré
         print(angles[1]*(180/pi))
         poppy.m1.goto_position(angles[1]*(180/pi),2)
         poppy.m2.goto_position(angles[2]*(180/pi),2)
