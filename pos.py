@@ -14,40 +14,55 @@ from time import sleep
 vrep.close_all_connections()
 poppy = PoppyErgoJr(simulator='vrep', scene='poppy_ergo_jr_holder.ttt', camera='dummy')
 
-def m(m,x,t=1,wait=False):
-    poppy.goto_position({("m"+str(m)):x},t,wait=wait)
+
+def ms(m,t=2,wait=False):
+    poppy.goto_position(
+        {("m"+str(id)):value for id, value in m.items()},
+        t,
+        wait=wait
+    )
     
+def m(m,x,t=2,wait=False):
+    ms({m:x},t,wait=wait)
     
 def sky_watching():
-    m(1,180)
-    m(2,0)
-    m(3,0)
-    m(4,90)
-    m(5,-90)
+    ms({
+        1:180,
+        2:0,
+        3:0,
+        4:90,
+        5:-90
+    }, wait=True)
 
 
 def reverse():
-    m(1,180)
-    m(2,0)
-    m(3,90)
-    m(4,180)
-    m(5,-90)
+    ms({
+        1:180,
+        2:0,
+        3:90,
+        4:180,
+        5:-90
+    }, wait=True)
     
 
 def plongeur():
-    m(1,-20)
-    m(2,-45)
-    m(3,45)
-    m(4,0)
-    m(5,-60)
+    ms({
+        1:-20,
+        2:-45,
+        3:45,
+        4:0,
+        5:-60
+    }, wait=True)
     
     
 def balai_brosse():
-    m(1,90,wait=True)
-    m(2,-70,wait=True)
-    m(3,10,wait=True)
-    m(4,180,wait=True)
-    m(5,-90,wait=True)
+    ms({
+        1:90,
+        2:-70,
+        3:10,
+        4:180,
+        5:-90
+    }, wait=True)
     sleep(1)
     m(1,270,wait=True)
     sleep(1)
@@ -55,11 +70,13 @@ def balai_brosse():
     
 
 def shaker():
-    m(1,0)
-    m(2,0)
-    m(3,0)
-    m(4,0)
-    m(5,90,wait=True)
+    ms({
+        1:0,
+        2:0,
+        3:0,
+        4:0,
+        5:90
+    }, wait=True)
     sleep(1)
     m(1,360,5)
     m(5,0,wait=True)
@@ -71,12 +88,18 @@ def shaker():
     
 
 def looping():
-    m(1,0)
-    m(2,-90)
-    m(3,0)
-    m(4,0)
-    m(5,90,wait=True)
+    ms({
+        1:0,
+        2:-90,
+        3:0,
+        4:0,
+        5:90
+    }, wait=True)
     sleep(1)
-    m(2,0)
-    m(3,-90)
-    m(5,-90)
+    ms({
+        1:0,
+        2:-90,
+        3:-90,
+        4:0,
+        5:-90
+    }, wait=True)
